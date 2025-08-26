@@ -1,0 +1,25 @@
+-- Schema for College Admission Management System
+CREATE TABLE IF NOT EXISTS students (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  marks DOUBLE NOT NULL -- percentage (0-100)
+);
+
+CREATE TABLE IF NOT EXISTS courses (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  code VARCHAR(20) UNIQUE NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  seats INT NOT NULL DEFAULT 0,
+  cutoff DOUBLE NOT NULL DEFAULT 0 -- minimum percentage
+);
+
+CREATE TABLE IF NOT EXISTS applications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT NOT NULL,
+  course_id INT NOT NULL,
+  merit_score DOUBLE NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'PENDING',
+  FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+  FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+);

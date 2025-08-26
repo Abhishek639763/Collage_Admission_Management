@@ -1,0 +1,2 @@
+application_id,student_id,student_name,email,marks,course_code,course_name,status
+1,1,Alice Kumar,alice@example.com,92.50,CS101,BSc Computer Science,ADMITTED
