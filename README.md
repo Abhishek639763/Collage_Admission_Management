@@ -51,20 +51,31 @@ Built as a console application with options for student registration, course man
 
 CollegeAdmissionSystem/
 │── pom.xml
+|
 │── schema.sql # Database schema
+|
 │── sample_data.sql # Sample data insert script
+|
 │── README.md
+|
 │── output/ # Exported CSV/PDF files
 │
 └── src/main/java/com/college/
+|
 │── MainApp.java # Entry point
 │
 ├── dao/ # DAO Interfaces
+|
 ├── dao/impl/ # DAO Implementations
+|
 ├── model/ # Entity classes (Student, Course, Application)
+|
 ├── service/ # Admission allocation logic
+|
 ├── util/ # DBUtil for connection
+|
 └── export/ # Exporter for CSV/PDF
+
 ---
 
 ## Database Setup (SQL Schema + Sample Data)
