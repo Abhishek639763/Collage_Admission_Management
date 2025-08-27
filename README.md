@@ -3,22 +3,120 @@
 
 **Objective:** Manage student applications, course allocation, and merit lists.
 
+A **Java + MySQL based system** to manage student admissions, course allocations, and merit-based seat allotment.  
+
+Built as a console application with options for student registration, course management, application submission, and automatic seat allocation.
+
+---
+
 **Deliverables included:** DB schema, user guide, sample output files, full Java Maven project with DAO layers and export capabilities (CSV + PDF).
 
 ---
 
-## Project structure (in the zip)
-```
-CollegeAdmissionSystem/
-  pom.xml
-  README.md
-  schema.sql
-  sample_data.sql
-  src/main/java/com/college/...
-  src/main/resources/db.properties
-  output/ (sample generated files)
-```
+## 🚀 Features
+
+- 👨‍🎓 **Student Management**
+  - Register students with name, email, and marks.
+  - View all registered students.
+
+- 📚 **Course Management**
+  - Admin can add courses with code, name, available seats, and cutoff percentage.
+  - View all available courses.
+
+- 📝 **Applications**
+  - Students can apply for courses.
+  - Applications stored with student marks.
+
+- 🎯 **Merit-based Allocation**
+  - Automatically allocate seats based on cutoff and marks.
+  - Reject students who do not meet the cutoff.
+
+- 📤 **Export Results**
+  - Generate **CSV** and **PDF** admission lists.
+
 ---
+
+## 🛠️ Tech Stack
+
+- **Java 17+**
+- **MySQL 8+**
+- **JDBC**
+- **Maven**
+- **OpenCSV / iText** (for exporting CSV/PDF)
+- **Eclipse IDE** (recommended)
+
+---
+
+## Project structure 
+
+CollegeAdmissionSystem/
+│── pom.xml
+│── schema.sql # Database schema
+│── sample_data.sql # Sample data insert script
+│── README.md
+│── output/ # Exported CSV/PDF files
+│
+└── src/main/java/com/college/
+│── MainApp.java # Entry point
+│
+├── dao/ # DAO Interfaces
+├── dao/impl/ # DAO Implementations
+├── model/ # Entity classes (Student, Course, Application)
+├── service/ # Admission allocation logic
+├── util/ # DBUtil for connection
+└── export/ # Exporter for CSV/PDF
+---
+
+## Database Setup (SQL Schema + Sample Data)
+
+Run the following SQL commands to set up the database manually:
+
+```sql
+-- Create database
+CREATE DATABASE collage_db;
+
+USE collage_db;
+
+-- Students table
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    marks DOUBLE NOT NULL
+);
+
+-- Courses table
+CREATE TABLE courses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    cutoff DOUBLE NOT NULL,
+    seats INT NOT NULL
+);
+
+-- Applications table
+CREATE TABLE applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    status VARCHAR(20) DEFAULT 'PENDING',
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+);
+
+-- Sample data
+INSERT INTO students (name, email, marks) VALUES
+('Alice Johnson', 'alice@example.com', 92.5),
+('Bob Smith', 'bob@example.com', 85.0),
+('Charlie Brown', 'charlie@example.com', 78.2);
+
+INSERT INTO courses (name, cutoff, seats) VALUES
+('Computer Science', 85.0, 2),
+('Mechanical Engineering', 75.0, 3),
+('Civil Engineering', 70.0, 2);
+
+INSERT INTO applications (student_id, course_id) VALUES
+(1, 1), (2, 1), (3, 2);
+
 
 ## Quick setup (step-by-step)
 
@@ -42,7 +140,7 @@ CollegeAdmissionSystem/
    mysql -u admuser -p college_admission < schema.sql
    mysql -u admuser -p college_admission < sample_data.sql
    ```
-   (Use password `adm@123` or change the credentials in `src/main/resources/db.properties`.)
+   (Use password `` or change the credentials in `src/main/resources/db.properties`.)
 
 4. **Configure DB connection** in `src/main/resources/db.properties` if needed:
    ```properties
@@ -74,5 +172,15 @@ CollegeAdmissionSystem/
 - CSV and PDF exports are implemented (PDF via Apache PDFBox).
 
 ---
+## Add Example Console Output
+A small block showing what the menu looks like when the program runs (like:
+
+=== College Admission Management System ===
+1. Register Student
+2. Add Course (Admin)
+3. Apply for Course
+4. Run Allocation
+5. Export Results (CSV/PDF)
+6. Exit
 
 If you'd like a GUI (Swing/JavaFX) or a web UI (Spring Boot + Thymeleaf or React), tell me and I will extend the project to include that and provide deployment notes for a server (Tomcat or Spring Boot standalone jar).
